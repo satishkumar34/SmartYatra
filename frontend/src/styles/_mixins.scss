@@ -1,0 +1,200 @@
+@use 'variables' as v;
+
+// ============================================================
+// Mixins
+// ============================================================
+
+@mixin flex($align: center, $justify: flex-start, $gap: 0) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  @if $gap != 0 { gap: $gap; }
+}
+
+@mixin grid($cols, $gap: v.$space-6) {
+  display: grid;
+  grid-template-columns: repeat($cols, 1fr);
+  gap: $gap;
+}
+
+@mixin card($padding: v.$space-6) {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: v.$radius-xl;
+  padding: $padding;
+  box-shadow: var(--shadow-card);
+  transition: all v.$transition-base;
+
+  &:hover {
+    border-color: var(--border-medium);
+    box-shadow: var(--shadow-card), var(--shadow-gold);
+    transform: translateY(-2px);
+  }
+}
+
+@mixin gold-gradient($dir: 135deg) {
+  background: linear-gradient($dir, v.$gold-500, v.$gold-400, v.$gold-300);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@mixin gold-border-top {
+  border-top: 2px solid v.$gold-400;
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$space-2;
+  padding: v.$space-3 v.$space-6;
+  border-radius: v.$radius-md;
+  font-size: v.$font-sm;
+  font-weight: v.$weight-semibold;
+  font-family: v.$font-sans;
+  cursor: pointer;
+  border: 1px solid transparent;
+  outline: none;
+  text-decoration: none;
+  transition: all v.$transition-base;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity v.$transition-fast;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+@mixin input-base {
+  width: 100%;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: v.$radius-md;
+  color: var(--text-primary);
+  font-size: v.$font-sm;
+  font-family: v.$font-sans;
+  padding: v.$space-3 v.$space-4;
+  transition: all v.$transition-base;
+  outline: none;
+
+  &::placeholder { color: var(--text-muted); }
+
+  &:focus {
+    border-color: #c9a84c;
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
+  }
+
+  &.error {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12);
+  }
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar { 
+    width: 8px; 
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track { 
+    background: transparent; 
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: v.$radius-full;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    transition: background-color v.$transition-fast;
+    
+    &:hover { 
+      background: var(--border-strong);
+      background-clip: content-box;
+    }
+  }
+}
+
+@mixin respond-to($bp) {
+  @if $bp == sm { @media (max-width: 640px) { @content; } }
+  @else if $bp == md { @media (max-width: 768px) { @content; } }
+  @else if $bp == lg { @media (max-width: 1024px) { @content; } }
+}
+
+@mixin status-badge($color) {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-1;
+  padding: v.$space-2 v.$space-3;
+  border-radius: v.$radius-full;
+  font-size: v.$font-xs;
+  font-weight: v.$weight-semibold;
+  background: rgba($color, 0.1);
+  color: $color;
+  border: 1px solid rgba($color, 0.2);
+  transition: all v.$transition-fast;
+
+  &:hover {
+    background: rgba($color, 0.15);
+    border-color: rgba($color, 0.35);
+  }
+}
+
+@mixin fade-in($duration: 0.4s) {
+  animation: fadeIn $duration ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+@mixin skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 25%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: v.$radius-md;
+}
+
+@mixin star-rating($filled-color: v.$gold-400) {
+  color: $filled-color;
+  font-size: v.$font-sm;
+}

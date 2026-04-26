@@ -1,0 +1,77 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.hotels-page { max-width: v.$content-max-width; margin: 0 auto; }
+
+.page-header { margin-bottom: v.$space-6;
+  h2 { font-size: v.$font-3xl; font-weight: v.$weight-bold; margin-bottom: v.$space-1; }
+  p  { color: v.$text-muted; }
+}
+
+.filters-bar {
+  @include m.flex(center, flex-start, v.$space-3);
+  flex-wrap: wrap;
+  margin-bottom: v.$space-6;
+}
+
+.search-wrap {
+  position: relative; flex: 1; min-width: 200px;
+  .search-icon { position: absolute; left: v.$space-3; top: 50%; transform: translateY(-50%); font-size: v.$font-sm; pointer-events: none; }
+  .search-input { @include m.input-base; padding-left: v.$space-8; }
+}
+.filter-input { @include m.input-base; min-width: 140px; }
+.price-input { max-width: 120px; }
+
+.hotels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: v.$space-6;
+  margin-bottom: v.$space-6;
+}
+
+.hotel-card {
+  @include m.card(0);
+  overflow: hidden; text-decoration: none;
+  display: flex; flex-direction: column;
+  transition: all v.$transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: v.$border-medium;
+    box-shadow: v.$shadow-lg, v.$shadow-gold;
+    .card-img { transform: scale(1.05); }
+  }
+}
+
+.card-img-wrap { position: relative; overflow: hidden; height: 200px; }
+.card-img { width: 100%; height: 100%; object-fit: cover; transition: transform v.$transition-slow; }
+
+.price-badge {
+  position: absolute; top: v.$space-3; right: v.$space-3;
+  background: rgba(0,0,0,0.75); color: v.$gold-400;
+  backdrop-filter: blur(8px);
+  padding: v.$space-1 v.$space-3;
+  border-radius: v.$radius-full;
+  font-size: v.$font-xs; font-weight: v.$weight-bold;
+  border: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+.card-body { padding: v.$space-5; display: flex; flex-direction: column; gap: v.$space-2; flex: 1; }
+.hotel-name { font-size: v.$font-lg; font-weight: v.$weight-semibold; color: v.$text-primary; margin: 0; }
+.hotel-address { font-size: v.$font-xs; color: v.$text-muted; margin: 0; }
+
+.amenities { display: flex; flex-wrap: wrap; gap: v.$space-2; margin-top: v.$space-1; }
+.amenity-tag {
+  font-size: 10px; padding: 2px v.$space-2;
+  background: v.$dark-700; border: 1px solid v.$border-subtle;
+  border-radius: v.$radius-full; color: v.$text-secondary;
+}
+
+.card-cta {
+  @include m.flex(center, space-between);
+  margin-top: auto; padding-top: v.$space-3;
+  border-top: 1px solid v.$border-subtle;
+}
+
+.rooms-left { font-size: v.$font-xs; color: v.$text-muted; }
+.book-link { cursor: pointer; }

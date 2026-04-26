@@ -1,0 +1,130 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.booking-page { max-width: v.$content-max-width; margin: 0 auto; }
+
+.booking-header {
+  margin-bottom: v.$space-8;
+  .back-link { display: inline-block; color: v.$gold-400; font-size: v.$font-sm; margin-bottom: v.$space-3; &:hover { color: v.$gold-300; } }
+  h2 { font-size: v.$font-3xl; font-weight: v.$weight-bold; margin-bottom: v.$space-1; }
+  p  { color: v.$text-muted; }
+}
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: v.$space-8;
+  align-items: flex-start;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.form-section-title { font-size: v.$font-xl; font-weight: v.$weight-semibold; margin-bottom: v.$space-5; }
+
+.form-error-banner {
+  @include m.flex(center, flex-start, v.$space-2);
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.25);
+  border-radius: v.$radius-md;
+  padding: v.$space-3 v.$space-4;
+  font-size: v.$font-sm;
+  color: v.$status-danger;
+  margin-bottom: v.$space-5;
+}
+
+.selected-hotel {
+  @include m.flex(center, flex-start, v.$space-4);
+  padding: v.$space-4;
+  background: v.$dark-800;
+  border: 1px solid v.$border-subtle;
+  border-radius: v.$radius-lg;
+  margin-bottom: v.$space-6;
+
+  .hotel-thumb {
+    width: 72px; height: 72px;
+    object-fit: cover;
+    border-radius: v.$radius-md;
+    flex-shrink: 0;
+  }
+
+  .hotel-title { font-size: v.$font-base; font-weight: v.$weight-semibold; color: v.$text-primary; margin-bottom: 2px; }
+  .hotel-sub   { font-size: v.$font-xs; color: v.$text-muted; margin-bottom: v.$space-1; }
+  .hotel-rate  { font-size: v.$font-sm; font-weight: v.$weight-bold; color: v.$gold-400; }
+}
+
+.dates-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-4;
+
+  @include m.respond-to(sm) { grid-template-columns: 1fr; }
+}
+
+.form-group {
+  display: flex; flex-direction: column; gap: v.$space-2; margin-bottom: v.$space-5;
+
+  label {
+    font-size: v.$font-xs; font-weight: v.$weight-semibold;
+    color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.06em;
+
+    .optional { font-weight: v.$weight-regular; text-transform: none; font-size: v.$font-xs; }
+  }
+
+  input, textarea, select { @include m.input-base; }
+  textarea { resize: vertical; }
+
+  .form-error { font-size: v.$font-xs; color: v.$status-danger; }
+}
+
+// Override date input styling
+input[type="date"] {
+  color-scheme: inherit;
+  &::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
+}
+
+.legal-note { font-size: v.$font-xs; color: v.$text-muted; text-align: center; margin-top: v.$space-3; }
+
+// Price Sidebar
+.price-sidebar { display: flex; flex-direction: column; gap: v.$space-4; position: sticky; top: v.$space-6; }
+
+.price-card {
+  border: 1px solid v.$border-medium;
+  h3 { font-size: v.$font-lg; font-weight: v.$weight-semibold; margin-bottom: v.$space-5; padding-bottom: v.$space-3; border-bottom: 1px solid v.$border-subtle; }
+}
+
+.price-rows { display: flex; flex-direction: column; gap: v.$space-3; margin-bottom: v.$space-5; }
+
+.price-row {
+  @include m.flex(center, space-between);
+  font-size: v.$font-sm; color: v.$text-secondary;
+}
+
+.price-total {
+  @include m.flex(center, space-between);
+  padding-top: v.$space-4;
+  border-top: 1px solid v.$border-medium;
+  font-size: v.$font-base; font-weight: v.$weight-bold; color: v.$text-primary;
+}
+
+.total-amount { font-size: v.$font-2xl; color: v.$gold-400; }
+
+.price-warning {
+  margin-top: v.$space-3;
+  padding: v.$space-2 v.$space-3;
+  background: rgba(243, 156, 18, 0.1);
+  border: 1px solid rgba(243, 156, 18, 0.25);
+  border-radius: v.$radius-md;
+  font-size: v.$font-xs;
+  color: v.$status-warning;
+}
+
+.info-card {
+  h4 { font-size: v.$font-sm; font-weight: v.$weight-semibold; margin-bottom: v.$space-3; }
+}
+
+.includes-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: v.$space-2;
+
+  li { font-size: v.$font-sm; color: v.$status-success; }
+}

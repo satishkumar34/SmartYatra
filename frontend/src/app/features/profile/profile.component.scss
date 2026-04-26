@@ -1,0 +1,84 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+.profile-page { max-width: 860px; margin: 0 auto; }
+
+.profile-header {
+  margin-bottom: v.$space-8;
+  h2 { font-size: v.$font-3xl; font-weight: v.$weight-bold; margin-bottom: v.$space-1; }
+  p  { color: v.$text-muted; }
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: v.$space-6;
+  align-items: flex-start;
+
+  @media (max-width: 700px) { grid-template-columns: 1fr; }
+}
+
+// ── Avatar Card ───────────────────────────────────────────────
+.avatar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: v.$space-2;
+}
+
+.avatar-display {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, v.$gold-500, v.$gold-400);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: v.$font-2xl;
+  font-weight: v.$weight-bold;
+  color: v.$dark-950;
+  margin-bottom: v.$space-2;
+  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.3);
+}
+
+.avatar-name  { font-size: v.$font-lg; font-weight: v.$weight-semibold; color: v.$text-primary; }
+.avatar-email { font-size: v.$font-sm; color: v.$text-muted; }
+
+.account-meta {
+  width: 100%;
+  border-top: 1px solid v.$border-subtle;
+  margin-top: v.$space-4;
+  padding-top: v.$space-4;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+}
+
+.meta-row {
+  @include m.flex(center, space-between);
+  font-size: v.$font-sm;
+}
+
+.meta-label { color: v.$text-muted; }
+.meta-value { color: v.$text-primary; font-weight: v.$weight-medium; }
+
+// ── Edit Card ─────────────────────────────────────────────────
+.section-title {
+  font-size: v.$font-xl;
+  font-weight: v.$weight-semibold;
+  margin-bottom: v.$space-6;
+  padding-bottom: v.$space-3;
+  border-bottom: 1px solid v.$border-subtle;
+}
+
+.form-group {
+  display: flex; flex-direction: column; gap: v.$space-2; margin-bottom: v.$space-5;
+
+  label {
+    font-size: v.$font-xs; font-weight: v.$weight-semibold;
+    color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  input { @include m.input-base; }
+  .disabled-input { opacity: 0.5; cursor: not-allowed; }
+  .form-error { font-size: v.$font-xs; color: v.$status-danger; }
+  .field-hint { font-size: v.$font-xs; color: v.$text-muted; margin-top: 2px; }
+}

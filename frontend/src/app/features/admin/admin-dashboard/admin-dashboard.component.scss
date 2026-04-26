@@ -1,0 +1,206 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+// CSS custom props for status colours (usable in inline styles)
+:host {
+  --c-success: #{v.$status-success};
+  --c-warning: #{v.$status-warning};
+  --c-danger:  #{v.$status-danger};
+}
+
+.admin-dash { max-width: v.$content-max-width; margin: 0 auto; }
+
+// ── Header ───────────────────────────────────────────────────
+.dash-header {
+  @include m.flex(center, space-between, v.$space-4);
+  flex-wrap: wrap;
+  margin-bottom: v.$space-8;
+  h2 { font-size: v.$font-3xl; font-weight: v.$weight-bold; margin-bottom: v.$space-1; }
+  p  { color: v.$text-muted; }
+}
+.dash-actions { @include m.flex(center, flex-end, v.$space-3); }
+
+// ── KPI Grid ─────────────────────────────────────────────────
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: v.$space-4;
+  margin-bottom: v.$space-6;
+
+  @media (max-width: 1200px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width:  700px) { grid-template-columns: repeat(2, 1fr); }
+}
+
+.kpi-card {
+  @include m.card(v.$space-5);
+  @include m.flex(center, flex-start, v.$space-4);
+  cursor: default;
+
+  .kpi-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .kpi-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .kpi-value { font-size: v.$font-2xl; font-weight: v.$weight-bold; color: v.$text-primary; line-height: 1; }
+  .kpi-label { font-size: 10px; font-weight: v.$weight-semibold; color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.07em; }
+
+  &.kpi--gold    { border-top: 2px solid v.$gold-400; }
+  &.kpi--teal    { border-top: 2px solid #1abc9c; }
+  &.kpi--blue    { border-top: 2px solid v.$status-info; }
+  &.kpi--purple  { border-top: 2px solid #9b59b6; }
+  &.kpi--coral   { border-top: 2px solid #e67e22; }
+  &.kpi--warning { border-top: 2px solid v.$status-warning; }
+}
+
+// ── Middle Row ───────────────────────────────────────────────
+.mid-row {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: v.$space-6;
+  margin-bottom: v.$space-6;
+  align-items: flex-start;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.section-title {
+  font-size: v.$font-lg;
+  font-weight: v.$weight-semibold;
+  margin-bottom: v.$space-5;
+  padding-bottom: v.$space-3;
+  border-bottom: 1px solid v.$border-subtle;
+}
+
+// ── Bar Chart ────────────────────────────────────────────────
+.bar-chart { display: flex; flex-direction: column; gap: v.$space-5; }
+
+.bar-row { @include m.flex(center, flex-start, v.$space-3); }
+
+.bar-label {
+  font-size: v.$font-xs;
+  font-weight: v.$weight-semibold;
+  color: v.$text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 70px;
+  flex-shrink: 0;
+}
+
+.bar-track {
+  flex: 1;
+  height: 8px;
+  background: v.$dark-700;
+  border-radius: v.$radius-full;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: v.$radius-full;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 4px;
+  &.fill-confirmed { background: v.$status-success; }
+  &.fill-pending   { background: v.$gold-400; }
+  &.fill-cancelled { background: v.$status-danger; }
+}
+
+.bar-count {
+  font-size: v.$font-sm;
+  font-weight: v.$weight-bold;
+  color: v.$text-primary;
+  width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.bar-pct {
+  font-size: v.$font-xs;
+  color: v.$text-muted;
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.no-data { color: v.$text-muted; font-size: v.$font-sm; padding: v.$space-4 0; }
+
+// ── Totals Strip ─────────────────────────────────────────────
+.totals-strip {
+  display: flex;
+  justify-content: space-around;
+  margin-top: v.$space-6;
+  padding-top: v.$space-5;
+  border-top: 1px solid v.$border-subtle;
+}
+
+.total-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.total-num  { font-size: v.$font-2xl; font-weight: v.$weight-bold; }
+.total-lbl  { font-size: v.$font-xs; color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.05em; }
+
+// ── Quick Links ──────────────────────────────────────────────
+.quick-nav-card {}
+.quick-links { display: flex; flex-direction: column; gap: v.$space-2; margin-bottom: v.$space-5; }
+
+.quick-link {
+  @include m.flex(center, flex-start, v.$space-3);
+  padding: v.$space-3 v.$space-4;
+  background: v.$dark-800;
+  border: 1px solid v.$border-subtle;
+  border-radius: v.$radius-lg;
+  color: v.$text-secondary;
+  text-decoration: none;
+  font-size: v.$font-sm;
+  font-weight: v.$weight-medium;
+  transition: all v.$transition-fast;
+
+  &:hover {
+    border-color: v.$gold-400;
+    color: v.$gold-400;
+    background: v.$gold-glow;
+  }
+
+  .ql-icon  { font-size: 1rem; flex-shrink: 0; }
+  .ql-label { flex: 1; }
+  .ql-arrow { font-size: v.$font-xs; color: v.$text-muted; transition: transform v.$transition-fast; }
+
+  &:hover .ql-arrow { transform: translateX(3px); color: v.$gold-400; }
+}
+
+// ── Revenue Highlight ────────────────────────────────────────
+.revenue-highlight {
+  @include m.flex(center, flex-start, v.$space-3);
+  flex-wrap: wrap;
+  padding: v.$space-4;
+  background: v.$gold-glow;
+  border: 1px solid v.$border-medium;
+  border-radius: v.$radius-lg;
+}
+
+.rev-label { font-size: v.$font-xs; color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.05em; flex-basis: 100%; }
+.rev-value { font-size: v.$font-3xl; font-weight: v.$weight-bold; color: v.$gold-400; }
+.rev-sub   { font-size: v.$font-xs; color: v.$text-muted; align-self: flex-end; padding-bottom: 4px; }
+
+// ── Recent Bookings ──────────────────────────────────────────
+.recent-card { padding: 0; overflow: hidden; }
+
+.recent-header {
+  @include m.flex(center, space-between);
+  padding: v.$space-5 v.$space-6;
+  border-bottom: 1px solid v.$border-subtle;
+}
+
+.view-all-link { font-size: v.$font-sm; color: v.$gold-400; font-weight: v.$weight-medium; &:hover { color: v.$gold-300; } }
+
+.data-table-wrap { overflow-x: auto; }
+.data-table {
+  width: 100%; border-collapse: collapse; font-size: v.$font-sm;
+  thead { background: v.$dark-800;
+    th { padding: v.$space-3 v.$space-5; text-align: left; font-size: v.$font-xs; font-weight: v.$weight-semibold;
+      color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap;
+      border-bottom: 1px solid v.$border-subtle; }
+  }
+  tbody {
+    tr { border-bottom: 1px solid v.$border-subtle; transition: background v.$transition-fast;
+      &:hover { background: rgba(255,255,255,0.02); } &:last-child { border-bottom: none; } }
+    td { padding: v.$space-3 v.$space-5; vertical-align: middle; }
+  }
+}
+.text-secondary { color: v.$text-secondary; }
+.text-muted     { color: v.$text-muted; }
+.price-cell     { color: v.$gold-400; font-weight: v.$weight-bold; }

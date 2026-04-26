@@ -1,0 +1,85 @@
+<div class="auth-page">
+  <div class="auth-backdrop"><div class="auth-pattern"></div></div>
+
+  <div class="auth-container">
+    <div class="auth-brand">
+      <div class="brand-icon">✈</div>
+      <h1 class="brand-name">VOYAGER</h1>
+      <p class="brand-tagline">Join the smart travel community</p>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <h2>Create account</h2>
+        <p>Start exploring the world's finest destinations</p>
+      </div>
+
+      @if (error()) {
+        <div class="auth-error"><span>⚠</span> {{ error() }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="full_name">Full Name</label>
+          <input
+            id="full_name"
+            type="text"
+            formControlName="full_name"
+            placeholder="John Doe"
+            autocomplete="name"
+            [class.error]="f['full_name'].invalid && f['full_name'].touched"
+          />
+          @if (f['full_name'].invalid && f['full_name'].touched) {
+            <span class="form-error">Full name must be at least 2 characters</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            [class.error]="f['email'].invalid && f['email'].touched"
+          />
+          @if (f['email'].invalid && f['email'].touched) {
+            <span class="form-error">Enter a valid email address</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Min 8 chars, 1 uppercase, 1 digit"
+            autocomplete="new-password"
+            [class.error]="f['password'].invalid && f['password'].touched"
+          />
+          @if (f['password'].errors?.['minlength'] && f['password'].touched) {
+            <span class="form-error">Password must be at least 8 characters</span>
+          }
+          @if (f['password'].errors?.['complexity'] && f['password'].touched) {
+            <span class="form-error">{{ f['password'].errors?.['complexity'] }}</span>
+          }
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg" [disabled]="loading()">
+          @if (loading()) {
+            <span class="loading-spinner" style="width:18px;height:18px;border-width:2px"></span>
+          } @else {
+            Create Account
+          }
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account?
+        <a routerLink="/auth/login">Sign in</a>
+      </div>
+    </div>
+  </div>
+</div>

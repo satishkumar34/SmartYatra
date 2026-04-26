@@ -1,0 +1,183 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.hotel-detail-page { max-width: v.$content-max-width; margin: 0 auto; }
+
+.hotel-hero {
+  position: relative;
+  height: 420px;
+  border-radius: v.$radius-2xl;
+  overflow: hidden;
+  margin-bottom: v.$space-8;
+
+  .hero-img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 50%);
+    padding: v.$space-6;
+  }
+}
+
+.back-link {
+  display: inline-flex; align-items: center;
+  color: rgba(255,255,255,0.9); font-size: v.$font-sm; text-decoration: none;
+  background: rgba(0,0,0,0.4); padding: v.$space-2 v.$space-4;
+  border-radius: v.$radius-full; backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all v.$transition-fast;
+  &:hover { background: rgba(0,0,0,0.6); color: #fff; }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: v.$space-8;
+  align-items: flex-start;
+
+  @media (max-width: 1024px) { grid-template-columns: 1fr; }
+}
+
+.detail-info { display: flex; flex-direction: column; gap: v.$space-5; }
+
+.hotel-header {
+  @include m.flex(flex-start, space-between, v.$space-4);
+  flex-wrap: wrap;
+  margin-bottom: v.$space-2;
+}
+
+.hotel-name { font-size: v.$font-3xl; font-weight: v.$weight-bold; margin-bottom: v.$space-1; }
+.hotel-address { font-size: v.$font-sm; color: v.$text-muted; }
+
+.info-section { h3 { font-size: v.$font-lg; font-weight: v.$weight-semibold; margin-bottom: v.$space-4; } p { color: v.$text-secondary; } }
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: v.$space-3;
+}
+
+.amenity-item {
+  @include m.flex(center, flex-start, v.$space-2);
+  font-size: v.$font-sm;
+  color: v.$text-secondary;
+  padding: v.$space-2 v.$space-3;
+  background: v.$dark-800;
+  border: 1px solid v.$border-subtle;
+  border-radius: v.$radius-md;
+
+  .amenity-icon { font-size: 1rem; }
+}
+
+.details-list { display: flex; flex-direction: column; gap: v.$space-3; }
+
+.detail-row {
+  @include m.flex(center, space-between);
+  padding: v.$space-3 0;
+  border-bottom: 1px solid v.$border-subtle;
+  &:last-child { border-bottom: none; }
+}
+
+.detail-label { font-size: v.$font-sm; color: v.$text-muted; }
+.detail-value { font-size: v.$font-sm; font-weight: v.$weight-semibold; color: v.$text-primary; }
+
+// Booking Sidebar
+.booking-sidebar { position: sticky; top: v.$space-6; }
+
+.booking-card {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-5;
+  border: 1px solid v.$border-medium;
+  box-shadow: v.$shadow-gold;
+}
+
+.price-display {
+  @include m.flex(baseline, flex-start, v.$space-2);
+  padding-bottom: v.$space-4;
+  border-bottom: 1px solid v.$border-subtle;
+}
+
+.price-amount { font-size: v.$font-4xl; font-weight: v.$weight-bold; color: v.$gold-400; }
+.price-unit   { font-size: v.$font-sm; color: v.$text-muted; }
+
+.booking-meta { display: flex; flex-direction: column; gap: v.$space-3; }
+
+.meta-row {
+  @include m.flex(center, flex-start, v.$space-3);
+  font-size: v.$font-sm;
+  color: v.$text-secondary;
+}
+
+.price-note { font-size: v.$font-xs; color: v.$text-muted; text-align: center; }
+
+.no-charge-note {
+  font-size: v.$font-xs;
+  color: v.$text-muted;
+  text-align: center;
+  margin-top: -#{v.$space-2};
+}
+
+.review-form {
+  display: grid;
+  gap: v.$space-3;
+  max-width: 680px;
+}
+
+.review-label {
+  font-weight: v.$weight-semibold;
+}
+
+.review-input {
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid v.$border-subtle;
+  border-radius: v.$radius-lg;
+  padding: v.$space-3;
+  font-size: v.$font-sm;
+  color: v.$text-primary;
+}
+
+.review-input[type="text"],
+.review-input[type="email"],
+.review-input[type="number"] {
+  max-width: 320px;
+}
+
+.review-input textarea {
+  min-height: 100px;
+}
+
+.review-form button {
+  width: fit-content;
+  padding: v.$space-3 v.$space-6;
+}
+
+.review-list {
+  display: grid;
+  gap: v.$space-3;
+  max-width: 720px;
+}
+
+.review-card {
+  @include m.card(0);
+  padding: v.$space-4;
+}
+
+.review-meta {
+  @include m.flex(center, space-between);
+  gap: v.$space-2;
+  margin-bottom: v.$space-3;
+  color: v.$text-muted;
+  font-size: v.$font-xs;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .review-form {
+    max-width: 100%;
+  }
+
+  .review-form button {
+    width: 100%;
+  }
+}

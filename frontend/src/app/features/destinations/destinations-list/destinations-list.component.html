@@ -1,0 +1,100 @@
+<div class="destinations-page fade-in">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h2>Explore Destinations</h2>
+      <p>Discover the world's most breathtaking locations</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar card-sm">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search destinations, cities..."
+        [value]="searchQuery"
+        (input)="onSearch($any($event.target).value)"
+      />
+    </div>
+
+    <div class="filter-group">
+      <input
+        type="text"
+        class="filter-input"
+        placeholder="Country"
+        [(ngModel)]="selectedCountry"
+        (change)="onFilter()"
+      />
+    </div>
+
+    <div class="filter-group">
+      <select class="filter-input" [(ngModel)]="minRating" (change)="onFilter()">
+        <option [ngValue]="undefined">Any rating</option>
+        <option [ngValue]="3">3+ Stars</option>
+        <option [ngValue]="4">4+ Stars</option>
+        <option [ngValue]="4.5">4.5+ Stars</option>
+      </select>
+    </div>
+
+    @if (hasFilters) {
+      <button class="btn btn-ghost btn-sm" (click)="clearFilters()">Clear filters</button>
+    }
+  </div>
+
+  <!-- Grid -->
+  @if (loading()) {
+    <app-card-skeleton [count]="12" />
+  } @else if (places().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🌍</div>
+      <h3>No destinations found</h3>
+      <p>Try adjusting your search or filters</p>
+      <button class="btn btn-secondary" style="margin-top:1rem" (click)="clearFilters()">
+        Clear Filters
+      </button>
+    </div>
+  } @else {
+    <div class="places-grid">
+      @for (place of places(); track place.id) {
+        <a class="place-card" [routerLink]="['/destinations', place.id]">
+          <div class="card-img-wrap">
+            <img
+              [src]="place.image_url || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=80'"
+              [alt]="place.name"
+              class="card-img"
+              loading="lazy"
+            />
+            <div class="card-overlay">
+              <span class="country-badge">{{ place.country }}</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h3 class="card-title">{{ place.name }}</h3>
+            <p class="card-location">📍 {{ place.location }}</p>
+
+            @if (place.description) {
+              <p class="card-desc">{{ place.description | slice:0:90 }}{{ place.description.length > 90 ? '…' : '' }}</p>
+            }
+
+            <div class="card-footer">
+              <app-star-rating [rating]="place.rating" />
+              <span class="explore-link">Explore →</span>
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+
+    <app-pagination
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPage($event)"
+    />
+  }
+
+</div>

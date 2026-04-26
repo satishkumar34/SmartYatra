@@ -1,0 +1,160 @@
+<div class="admin-dash fade-in">
+
+  <!-- Page title -->
+  <div class="dash-header">
+    <div>
+      <h2>Admin Dashboard</h2>
+      <p>Platform overview and real-time analytics</p>
+    </div>
+    <div class="dash-actions">
+      <a routerLink="/admin/places" class="btn btn-secondary btn-sm">+ Destination</a>
+      <a routerLink="/admin/hotels"  class="btn btn-primary  btn-sm">+ Hotel</a>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading"><div class="loading-spinner"></div></div>
+  } @else {
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      @for (card of kpiCards(); track card.label) {
+        <div class="kpi-card kpi--{{ card.accent }}">
+          <span class="kpi-icon">{{ card.icon }}</span>
+          <div class="kpi-body">
+            <span class="kpi-value">{{ card.value }}</span>
+            <span class="kpi-label">{{ card.label }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Middle row: status breakdown + quick links -->
+    <div class="mid-row">
+
+      <!-- Booking Status Breakdown -->
+      <div class="card status-card">
+        <h3 class="section-title">Booking breakdown</h3>
+
+        @if (stats()!.total_bookings === 0) {
+          <div class="no-data">No bookings recorded yet</div>
+        } @else {
+          <!-- Visual bar chart -->
+          <div class="bar-chart">
+            <div class="bar-row">
+              <span class="bar-label">Confirmed</span>
+              <div class="bar-track">
+                <div class="bar-fill fill-confirmed" [style.width.%]="confirmedPct()"></div>
+              </div>
+              <span class="bar-count">{{ stats()!.confirmed_bookings }}</span>
+              <span class="bar-pct">{{ confirmedPct() }}%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Pending</span>
+              <div class="bar-track">
+                <div class="bar-fill fill-pending" [style.width.%]="pendingPct()"></div>
+              </div>
+              <span class="bar-count">{{ stats()!.pending_bookings }}</span>
+              <span class="bar-pct">{{ pendingPct() }}%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Cancelled</span>
+              <div class="bar-track">
+                <div class="bar-fill fill-cancelled" [style.width.%]="cancelledPct()"></div>
+              </div>
+              <span class="bar-count">{{ stats()!.cancelled_bookings }}</span>
+              <span class="bar-pct">{{ cancelledPct() }}%</span>
+            </div>
+          </div>
+
+          <!-- Totals strip -->
+          <div class="totals-strip">
+            <div class="total-item">
+              <span class="total-num text-gold">{{ stats()!.total_bookings }}</span>
+              <span class="total-lbl">Total</span>
+            </div>
+            <div class="total-item">
+              <span class="total-num" style="color:var(--c-success, #2ecc71)">{{ stats()!.confirmed_bookings }}</span>
+              <span class="total-lbl">Confirmed</span>
+            </div>
+            <div class="total-item">
+              <span class="total-num" style="color:var(--c-warning, #f39c12)">{{ stats()!.pending_bookings }}</span>
+              <span class="total-lbl">Pending</span>
+            </div>
+            <div class="total-item">
+              <span class="total-num" style="color:var(--c-danger, #e74c3c)">{{ stats()!.cancelled_bookings }}</span>
+              <span class="total-lbl">Cancelled</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Quick Navigation -->
+      <div class="card quick-nav-card">
+        <h3 class="section-title">Quick navigation</h3>
+        <div class="quick-links">
+          @for (link of quickLinks; track link.route) {
+            <a [routerLink]="link.route" class="quick-link">
+              <span class="ql-icon">{{ link.icon }}</span>
+              <span class="ql-label">{{ link.label }}</span>
+              <span class="ql-arrow">→</span>
+            </a>
+          }
+        </div>
+
+        <!-- Revenue highlight -->
+        @if (stats()) {
+          <div class="revenue-highlight">
+            <span class="rev-label">Total platform revenue</span>
+            <span class="rev-value">₹{{ stats()!.total_revenue | number:'1.0-0' }}</span>
+            <span class="rev-sub">from confirmed bookings</span>
+          </div>
+        }
+      </div>
+
+    </div>
+
+    <!-- Recent Bookings Table -->
+    @if (recent().length > 0) {
+      <div class="card recent-card">
+        <div class="recent-header">
+          <h3 class="section-title" style="margin-bottom:0">Recent bookings</h3>
+          <a routerLink="/admin/bookings" class="view-all-link">View all →</a>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Hotel</th>
+                <th>Check-in</th>
+                <th>Nights</th>
+                <th>Guests</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (b of recent(); track b.id) {
+                <tr>
+                  <td class="text-muted">#{{ b.id }}</td>
+                  <td class="text-secondary">User #{{ b.user_id }}</td>
+                  <td class="text-secondary">Hotel #{{ b.hotel_id }}</td>
+                  <td class="text-secondary" style="white-space:nowrap">{{ b.check_in | date:'MMM d, y' }}</td>
+                  <td>{{ nightsBetween(b.check_in, b.check_out) }}</td>
+                  <td>{{ b.guests }}</td>
+                  <td class="price-cell">₹{{ b.total_price | number:'1.0-0' }}</td>
+                  <td><span [class]="statusClass(b.status)">{{ b.status }}</span></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+  }
+
+</div>

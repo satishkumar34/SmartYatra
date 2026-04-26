@@ -1,0 +1,124 @@
+<div class="hotel-detail-page">
+
+  @if (loading()) {
+    <div class="page-loading"><div class="loading-spinner"></div></div>
+  } @else if (error()) {
+    <div class="empty-state">
+      <div class="empty-icon">🏨</div>
+      <h3>{{ error() }}</h3>
+      <a routerLink="/hotels" class="btn btn-secondary" style="margin-top:1rem">Back to Hotels</a>
+    </div>
+  } @else if (hotel()) {
+    <div class="fade-in">
+
+      <!-- Hero -->
+      <div class="hotel-hero">
+        <img
+          [src]="hotel()!.image_url || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&q=80'"
+          [alt]="hotel()!.name"
+          class="hero-img"
+        />
+        <div class="hero-overlay">
+          <a routerLink="/hotels" class="back-link">← All Hotels</a>
+        </div>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="detail-grid">
+
+        <!-- Left: Info -->
+        <div class="detail-info">
+          <div class="hotel-header">
+            <div>
+              <h1 class="hotel-name">{{ hotel()!.name }}</h1>
+              <p class="hotel-address">📍 {{ hotel()!.address }}</p>
+            </div>
+            <app-star-rating [rating]="hotel()!.rating" />
+          </div>
+
+          @if (hotel()!.description) {
+            <div class="info-section card">
+              <h3>About this hotel</h3>
+              <p>{{ hotel()!.description }}</p>
+            </div>
+          }
+
+          <!-- Amenities -->
+          @if (amenities.length > 0) {
+            <div class="info-section card">
+              <h3>Amenities</h3>
+              <div class="amenities-grid">
+                @for (amenity of amenities; track amenity) {
+                  <div class="amenity-item">
+                    <span class="amenity-icon">{{ iconFor(amenity) }}</span>
+                    <span>{{ amenity }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Details -->
+          <div class="info-section card">
+            <h3>Details</h3>
+            <div class="details-list">
+              <div class="detail-row">
+                <span class="detail-label">Total rooms</span>
+                <span class="detail-value">{{ hotel()!.total_rooms }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Rating</span>
+                <span class="detail-value">{{ hotel()!.rating }} / 5</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Status</span>
+                <span [class]="hotel()!.is_active ? 'badge-confirmed' : 'badge-cancelled'">
+                  {{ hotel()!.is_active ? 'Available' : 'Unavailable' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Booking Card -->
+        <div class="booking-sidebar">
+          <div class="booking-card card">
+            <div class="price-display">
+              <span class="price-amount">₹{{ hotel()!.price_per_night | number:'1.0-0' }}</span>
+              <span class="price-unit">per night</span>
+            </div>
+
+            <div class="booking-meta">
+              <div class="meta-row">
+                <span>🏨</span>
+                <span>{{ hotel()!.total_rooms }} rooms available</span>
+              </div>
+              <div class="meta-row">
+                <span>⭐</span>
+                <span>{{ hotel()!.rating }}/5 guest rating</span>
+              </div>
+            </div>
+
+            <div class="price-note">
+              Taxes and fees calculated at checkout
+            </div>
+
+            @if (hotel()!.is_active) {
+              <button class="btn btn-primary btn-full btn-lg" (click)="bookNow()">
+                Book Now
+              </button>
+            } @else {
+              <button class="btn btn-secondary btn-full btn-lg" disabled>
+                Currently Unavailable
+              </button>
+            }
+
+            <p class="no-charge-note">You won't be charged yet</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  }
+
+</div>

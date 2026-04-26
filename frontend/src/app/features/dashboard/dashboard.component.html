@@ -1,0 +1,228 @@
+<div class="dashboard fade-in">
+  <div class="dashboard-atmosphere" aria-hidden="true">
+    <div class="mist-layer mist-layer--one"></div>
+    <div class="mist-layer mist-layer--two"></div>
+
+    @for (flake of snowflakes; track $index) {
+      <span
+        class="snowflake"
+        [style.left.%]="flake.left"
+        [style.top.%]="flake.top"
+        [style.width.px]="flake.size"
+        [style.height.px]="flake.size"
+        [style.opacity]="flake.opacity"
+        [style.animationDuration.s]="flake.duration"
+        [style.animationDelay.s]="flake.delay"
+        [style.--drift]="flake.drift + 'px'"
+        [style.filter]="'blur(' + (flake.blur ?? 0) + 'px)'"
+      ></span>
+    }
+
+    @for (leaf of leaves; track $index) {
+      <span
+        class="leaf-particle"
+        [style.left.%]="leaf.left"
+        [style.top.%]="leaf.top"
+        [style.width.px]="leaf.size"
+        [style.height.px]="leaf.size * 0.58"
+        [style.opacity]="leaf.opacity"
+        [style.animationDuration.s]="leaf.duration"
+        [style.animationDelay.s]="leaf.delay"
+        [style.--drift]="leaf.drift + 'px'"
+        [style.--rotation]="(leaf.rotation ?? 0) + 'deg'"
+      ></span>
+    }
+  </div>
+
+  <div class="dashboard-shell">
+    <section class="dashboard-hero" [style.background]="heroBackground">
+      <div class="dashboard-hero__content">
+        <div class="dashboard-header">
+          <div>
+            <span class="hero-kicker">Smart Tourism Dashboard</span>
+            <h2 class="welcome-title">
+              Good day, <span class="text-gold">{{ firstName() }}</span>
+            </h2>
+            <p class="welcome-sub">
+              {{ isAdmin() ? 'Here\'s what\'s happening on the platform today.' : 'Track your journeys and upcoming adventures.' }}
+            </p>
+          </div>
+          <div class="header-actions">
+            <a routerLink="/destinations" class="btn btn-primary">
+              Explore Destinations
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-highlights">
+          <div class="hero-pill">Scenic mountain journeys</div>
+          <div class="hero-pill">Premium stays and routes</div>
+          <div class="hero-pill">Built for modern travel planning</div>
+        </div>
+
+        <div class="hero-glass-panel">
+          <div class="hero-glass-copy">
+            <span class="hero-glass-label">Featured vibe</span>
+            <h3>Bring the destination into the dashboard</h3>
+            <p>
+              A cinematic travel background, sunrise glow, and clean overlays
+              make the space feel more like a tourism product and less like a plain dashboard.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="dashboard-body">
+      @if (isAdmin()) {
+        @if (loading()) {
+          <div class="stats-grid">
+            @for (i of [1,2,3,4,5,6,7,8]; track i) {
+              <div class="stat-card skeleton-card">
+                <div class="skeleton-line short" style="height:16px;margin-bottom:12px;width:40%"></div>
+                <div class="skeleton-line wide" style="height:28px;width:60%"></div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="stats-grid">
+            @for (card of statCards(); track card.label) {
+              <div class="stat-card stat-card--{{ card.color }}" [routerLink]="card.route">
+                <div class="stat-top">
+                  <span class="stat-icon">{{ card.icon }}</span>
+                  <span class="stat-label">{{ card.label }}</span>
+                </div>
+                <div class="stat-value">{{ card.value }}</div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (stats()) {
+          <div class="status-overview card">
+            <h3 class="section-title">Booking status overview</h3>
+            <div class="status-bars">
+              <div class="status-bar-item">
+                <div class="status-bar-label">
+                  <span>Confirmed</span>
+                  <span class="text-gold">{{ stats()!.confirmed_bookings }}</span>
+                </div>
+                <div class="bar-track">
+                  <div
+                    class="bar-fill bar-confirmed"
+                    [style.width.%]="stats()!.total_bookings ? (stats()!.confirmed_bookings / stats()!.total_bookings * 100) : 0"
+                  ></div>
+                </div>
+              </div>
+              <div class="status-bar-item">
+                <div class="status-bar-label">
+                  <span>Pending</span>
+                  <span class="text-gold">{{ stats()!.pending_bookings }}</span>
+                </div>
+                <div class="bar-track">
+                  <div
+                    class="bar-fill bar-pending"
+                    [style.width.%]="stats()!.total_bookings ? (stats()!.pending_bookings / stats()!.total_bookings * 100) : 0"
+                  ></div>
+                </div>
+              </div>
+              <div class="status-bar-item">
+                <div class="status-bar-label">
+                  <span>Cancelled</span>
+                  <span class="text-gold">{{ stats()!.cancelled_bookings }}</span>
+                </div>
+                <div class="bar-track">
+                  <div
+                    class="bar-fill bar-cancelled"
+                    [style.width.%]="stats()!.total_bookings ? (stats()!.cancelled_bookings / stats()!.total_bookings * 100) : 0"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="quick-actions card">
+          <h3 class="section-title">Quick actions</h3>
+          <div class="actions-grid">
+            <a routerLink="/admin/places" class="action-item">
+              <span class="action-icon">{{ 'P' }}</span>
+              <span>Add destination</span>
+            </a>
+            <a routerLink="/admin/hotels" class="action-item">
+              <span class="action-icon">{{ 'H' }}</span>
+              <span>Add hotel</span>
+            </a>
+            <a routerLink="/admin/bookings" class="action-item">
+              <span class="action-icon">{{ 'B' }}</span>
+              <span>Manage bookings</span>
+            </a>
+            <a routerLink="/admin/users" class="action-item">
+              <span class="action-icon">{{ 'U' }}</span>
+              <span>View users</span>
+            </a>
+          </div>
+        </div>
+      }
+
+      @if (!isAdmin()) {
+        <div class="user-panels">
+          <div class="panel card">
+            <h3 class="section-title">Start your journey</h3>
+            <div class="explore-options">
+              <a routerLink="/destinations" class="explore-card">
+                <span class="explore-icon">{{ 'P' }}</span>
+                <div>
+                  <div class="explore-title">Browse Destinations</div>
+                  <div class="explore-sub">Discover amazing places</div>
+                </div>
+              </a>
+              <a routerLink="/hotels" class="explore-card">
+                <span class="explore-icon">{{ 'H' }}</span>
+                <div>
+                  <div class="explore-title">Find Hotels</div>
+                  <div class="explore-sub">Best stays at best prices</div>
+                </div>
+              </a>
+              <a routerLink="/bookings" class="explore-card">
+                <span class="explore-icon">{{ 'B' }}</span>
+                <div>
+                  <div class="explore-title">My Bookings</div>
+                  <div class="explore-sub">View all your trips</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          @if (recentBookings().length > 0) {
+            <div class="card">
+              <h3 class="section-title">Recent bookings</h3>
+              <div class="bookings-list">
+                @for (booking of recentBookings(); track booking.id) {
+                  <div class="booking-row" [routerLink]="['/bookings']">
+                    <div class="booking-info">
+                      <span class="booking-id">#{{ booking.id }}</span>
+                      <span class="booking-dates">{{ booking.check_in | date:'MMM d' }} - {{ booking.check_out | date:'MMM d, y' }}</span>
+                    </div>
+                    <div class="booking-right">
+                      <span class="booking-price">Rs {{ booking.total_price | number:'1.0-0' }}</span>
+                      <span [class]="statusClass(booking.status)">{{ booking.status }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+              <a routerLink="/bookings" class="view-all-link">View all bookings -></a>
+            </div>
+          } @else if (!loading()) {
+            <div class="empty-state">
+              <div class="empty-icon">T</div>
+              <h3>No trips yet</h3>
+              <p>Book your first adventure to get started</p>
+              <a routerLink="/destinations" class="btn btn-primary" style="margin-top:1rem">Explore Now</a>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

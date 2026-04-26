@@ -1,0 +1,97 @@
+// Inherits all auth-page layout from the shared pattern.
+// Import the same auth styles here.
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+// Copy all auth-page rules (DRY alternative: extract to shared _auth-layout.scss and @use it)
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: v.$dark-950;
+  position: relative;
+  overflow: hidden;
+  padding: v.$space-4;
+}
+
+.auth-backdrop {
+  position: absolute; inset: 0; pointer-events: none;
+  .auth-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 20%, rgba(201, 168, 76, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(201, 168, 76, 0.04) 0%, transparent 60%);
+  }
+}
+
+.auth-container {
+  width: 100%; max-width: 420px; position: relative; z-index: 1;
+  @include m.fade-in(0.5s);
+}
+
+.auth-brand {
+  text-align: center; margin-bottom: v.$space-8;
+  .brand-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, v.$gold-500, v.$gold-400);
+    border-radius: v.$radius-xl;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: v.$dark-950;
+    margin: 0 auto v.$space-4;
+    box-shadow: 0 8px 24px rgba(201, 168, 76, 0.25);
+  }
+  .brand-name {
+    font-size: v.$font-2xl; font-weight: v.$weight-bold;
+    letter-spacing: 0.15em; @include m.gold-gradient; margin-bottom: v.$space-1;
+  }
+  .brand-tagline { font-size: v.$font-sm; color: v.$text-muted; }
+}
+
+.auth-card {
+  background: v.$dark-850;
+  border: 1px solid v.$border-subtle;
+  border-radius: v.$radius-2xl;
+  padding: v.$space-8;
+  box-shadow: v.$shadow-lg, v.$shadow-gold;
+  @include m.respond-to(sm) { padding: v.$space-6; }
+}
+
+.auth-card-header {
+  margin-bottom: v.$space-6;
+  h2 { font-size: v.$font-2xl; font-weight: v.$weight-bold; color: v.$text-primary; margin-bottom: v.$space-1; }
+  p  { font-size: v.$font-sm; color: v.$text-muted; margin: 0; }
+}
+
+.auth-error {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.25);
+  border-radius: v.$radius-md;
+  padding: v.$space-3 v.$space-4;
+  font-size: v.$font-sm; color: v.$status-danger;
+  margin-bottom: v.$space-5;
+  display: flex; align-items: center; gap: v.$space-2;
+}
+
+.auth-form {
+  .form-group { margin-bottom: v.$space-5; }
+  label {
+    font-size: v.$font-xs; font-weight: v.$weight-semibold;
+    color: v.$text-muted; text-transform: uppercase;
+    letter-spacing: 0.08em; display: block; margin-bottom: v.$space-2;
+  }
+  input {
+    @include m.input-base;
+    background: v.$dark-900;
+    border-color: v.$border-subtle;
+    padding: v.$space-4; font-size: v.$font-base;
+  }
+  .form-error { font-size: v.$font-xs; color: v.$status-danger; margin-top: v.$space-1; display: block; }
+  .btn-primary { margin-top: v.$space-2; height: 52px; font-size: v.$font-base; letter-spacing: 0.03em; }
+}
+
+.auth-footer {
+  text-align: center; margin-top: v.$space-6;
+  font-size: v.$font-sm; color: v.$text-muted;
+  a { color: v.$gold-400; font-weight: v.$weight-semibold; margin-left: v.$space-1; &:hover { color: v.$gold-300; } }
+}

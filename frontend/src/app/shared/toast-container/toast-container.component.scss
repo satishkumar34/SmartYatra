@@ -1,0 +1,90 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+.toast-container {
+  position: fixed;
+  bottom: v.$space-6;
+  right: v.$space-6;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+  pointer-events: none;
+
+  @include m.respond-to(sm) {
+    bottom: v.$space-4;
+    right: v.$space-4;
+    left: v.$space-4;
+  }
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+  padding: v.$space-4 v.$space-5;
+  border-radius: v.$radius-lg;
+  font-size: v.$font-sm;
+  font-weight: v.$weight-medium;
+  backdrop-filter: blur(12px);
+  min-width: 300px;
+  max-width: 440px;
+  pointer-events: all;
+  cursor: pointer;
+  box-shadow: v.$shadow-lg;
+  animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+  @include m.respond-to(sm) { min-width: unset; width: 100%; }
+
+  &-success {
+    background: rgba(46, 204, 113, 0.12);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    color: v.$status-success;
+  }
+
+  &-error {
+    background: rgba(231, 76, 60, 0.12);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    color: v.$status-danger;
+  }
+
+  &-warning {
+    background: rgba(243, 156, 18, 0.12);
+    border: 1px solid rgba(243, 156, 18, 0.3);
+    color: v.$status-warning;
+  }
+
+  &-info {
+    background: rgba(52, 152, 219, 0.12);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    color: v.$status-info;
+  }
+}
+
+.toast-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.toast-message {
+  flex: 1;
+  color: v.$text-primary;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: v.$text-muted;
+  cursor: pointer;
+  font-size: v.$font-xs;
+  padding: 0;
+  flex-shrink: 0;
+  &:hover { color: v.$text-primary; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}

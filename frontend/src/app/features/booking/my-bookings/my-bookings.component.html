@@ -1,0 +1,106 @@
+<div class="my-bookings-page fade-in">
+
+  <div class="page-header">
+    <div>
+      <h2>My Bookings</h2>
+      <p>Your complete travel history</p>
+    </div>
+    <a routerLink="/hotels" class="btn btn-primary">Book a Stay</a>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading"><div class="loading-spinner"></div></div>
+  } @else if (bookings().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">✈</div>
+      <h3>No bookings yet</h3>
+      <p>Start exploring destinations and book your first stay</p>
+      <a routerLink="/destinations" class="btn btn-primary" style="margin-top:1.5rem">Explore Now</a>
+    </div>
+  } @else {
+    <div class="bookings-list">
+      @for (booking of bookings(); track booking.id) {
+        <div class="booking-card card">
+
+          <div class="booking-top">
+            <div class="booking-id-wrap">
+              <span class="booking-label">Booking</span>
+              <span class="booking-num">#{{ booking.id }}</span>
+            </div>
+            <span [class]="statusClass(booking.status)">{{ booking.status }}</span>
+          </div>
+
+          <div class="booking-body">
+            <!-- Dates -->
+            <div class="booking-dates">
+              <div class="date-block">
+                <span class="date-label">Check-in</span>
+                <span class="date-value">{{ booking.check_in | date:'EEE, MMM d, y' }}</span>
+              </div>
+              <div class="date-divider">
+                <div class="nights-badge">{{ nightsBetween(booking.check_in, booking.check_out) }} nights</div>
+                <div class="date-line"></div>
+              </div>
+              <div class="date-block">
+                <span class="date-label">Check-out</span>
+                <span class="date-value">{{ booking.check_out | date:'EEE, MMM d, y' }}</span>
+              </div>
+            </div>
+
+            <!-- Meta -->
+            <div class="booking-meta">
+              <div class="meta-item">
+                <span class="meta-label">Guests</span>
+                <span class="meta-value">{{ booking.guests }}</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Hotel ID</span>
+                <span class="meta-value">#{{ booking.hotel_id }}</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Booked on</span>
+                <span class="meta-value">{{ booking.created_at | date:'MMM d, y' }}</span>
+              </div>
+            </div>
+          </div>
+
+          @if (booking.special_requests) {
+            <div class="special-requests">
+              <span class="sr-label">Special requests:</span>
+              <span class="sr-text">{{ booking.special_requests }}</span>
+            </div>
+          }
+
+          <div class="booking-footer">
+            <div class="total-price">
+              <span class="price-label">Total paid</span>
+              <span class="price-value">₹{{ booking.total_price | number:'1.0-0' }}</span>
+            </div>
+
+            @if (canCancel(booking.status)) {
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="cancel(booking.id)"
+                [disabled]="cancellingId() === booking.id"
+              >
+                @if (cancellingId() === booking.id) {
+                  Cancelling...
+                } @else {
+                  Cancel Booking
+                }
+              </button>
+            }
+          </div>
+
+        </div>
+      }
+    </div>
+
+    <app-pagination
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPage($event)"
+    />
+  }
+
+</div>

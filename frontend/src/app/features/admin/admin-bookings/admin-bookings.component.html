@@ -1,0 +1,81 @@
+<div class="admin-page fade-in">
+
+  <div class="admin-header">
+    <div>
+      <h2>All Bookings</h2>
+      <p>View and manage every booking on the platform</p>
+    </div>
+  </div>
+
+  <div class="admin-search">
+    <select class="search-input" [(ngModel)]="filterStatus" (change)="onFilter()">
+      <option value="">All statuses</option>
+      @for (s of statusOptions; track s) {
+        <option [value]="s">{{ s | titlecase }}</option>
+      }
+    </select>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading"><div class="loading-spinner"></div></div>
+  } @else if (bookings().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <h3>No bookings found</h3>
+    </div>
+  } @else {
+    <div class="data-table-wrap card">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#ID</th>
+            <th>User</th>
+            <th>Hotel</th>
+            <th>Dates</th>
+            <th>Nights</th>
+            <th>Guests</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (booking of bookings(); track booking.id) {
+            <tr>
+              <td class="text-secondary">#{{ booking.id }}</td>
+              <td class="text-secondary">User #{{ booking.user_id }}</td>
+              <td class="text-secondary">Hotel #{{ booking.hotel_id }}</td>
+              <td class="text-secondary" style="white-space:nowrap">
+                {{ booking.check_in | date:'MMM d' }} – {{ booking.check_out | date:'MMM d, y' }}
+              </td>
+              <td>{{ nightsBetween(booking.check_in, booking.check_out) }}</td>
+              <td>{{ booking.guests }}</td>
+              <td><span class="rating-cell">₹{{ booking.total_price | number:'1.0-0' }}</span></td>
+              <td><span [class]="statusClass(booking.status)">{{ booking.status }}</span></td>
+              <td>
+                @if (allowedTransitions(booking.status).length > 0) {
+                  <select
+                    class="status-select"
+                    [value]="booking.status"
+                    [disabled]="updatingId() === booking.id"
+                    (change)="updateStatus(booking, $any($event.target).value)"
+                  >
+                    <option [value]="booking.status">{{ booking.status | titlecase }}</option>
+                    @for (s of allowedTransitions(booking.status); track s) {
+                      <option [value]="s">→ {{ s | titlecase }}</option>
+                    }
+                  </select>
+                } @else {
+                  <span class="text-muted text-xs">—</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <app-pagination [currentPage]="currentPage()" [totalPages]="totalPages()" (pageChange)="onPage($event)" />
+  }
+
+</div>

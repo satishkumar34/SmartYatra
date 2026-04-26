@@ -1,0 +1,100 @@
+<div class="hotels-page fade-in">
+
+  <div class="page-header">
+    <div>
+      <h2>Find Hotels</h2>
+      <p>Luxury stays handpicked for every destination</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar card-sm">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search hotels..."
+        [value]="searchQuery"
+        (input)="onSearch($any($event.target).value)"
+      />
+    </div>
+
+    <select class="filter-input" [(ngModel)]="selectedPlaceId" (change)="onFilter()">
+      <option [ngValue]="undefined">All destinations</option>
+      @for (place of places(); track place.id) {
+        <option [ngValue]="place.id">{{ place.name }}</option>
+      }
+    </select>
+
+    <input type="number" class="filter-input price-input" placeholder="Min price"
+           [(ngModel)]="minPrice" (change)="onFilter()" />
+
+    <input type="number" class="filter-input price-input" placeholder="Max price"
+           [(ngModel)]="maxPrice" (change)="onFilter()" />
+
+    <select class="filter-input" [(ngModel)]="minRating" (change)="onFilter()">
+      <option [ngValue]="undefined">Any rating</option>
+      <option [ngValue]="3">3+ Stars</option>
+      <option [ngValue]="4">4+ Stars</option>
+      <option [ngValue]="4.5">4.5+ Stars</option>
+    </select>
+
+    @if (hasFilters) {
+      <button class="btn btn-ghost btn-sm" (click)="clearFilters()">Clear</button>
+    }
+  </div>
+
+  <!-- Grid -->
+  @if (loading()) {
+    <app-card-skeleton [count]="12" />
+  } @else if (hotels().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🏨</div>
+      <h3>No hotels found</h3>
+      <p>Try adjusting your filters</p>
+      <button class="btn btn-secondary" style="margin-top:1rem" (click)="clearFilters()">Clear Filters</button>
+    </div>
+  } @else {
+    <div class="hotels-grid">
+      @for (hotel of hotels(); track hotel.id) {
+        <a class="hotel-card" [routerLink]="['/hotels', hotel.id]">
+          <div class="card-img-wrap">
+            <img
+              [src]="hotel.image_url || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80'"
+              [alt]="hotel.name"
+              class="card-img"
+              loading="lazy"
+            />
+            <div class="price-badge">₹{{ hotel.price_per_night | number:'1.0-0' }}/night</div>
+          </div>
+          <div class="card-body">
+            <h3 class="hotel-name">{{ hotel.name }}</h3>
+            <p class="hotel-address">📍 {{ hotel.address }}</p>
+            <app-star-rating [rating]="hotel.rating" />
+
+            @if (amenitiesList(hotel.amenities).length > 0) {
+              <div class="amenities">
+                @for (a of amenitiesList(hotel.amenities).slice(0, 3); track a) {
+                  <span class="amenity-tag">{{ a }}</span>
+                }
+              </div>
+            }
+
+            <div class="card-cta">
+              <span class="rooms-left">{{ hotel.total_rooms }} rooms available</span>
+              <span class="book-link btn btn-primary btn-sm">Book Now</span>
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+
+    <app-pagination
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPage($event)"
+    />
+  }
+
+</div>
