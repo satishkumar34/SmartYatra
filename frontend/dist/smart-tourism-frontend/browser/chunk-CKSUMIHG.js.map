@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/core/services/admin.service.ts"],
+  "sourcesContent": ["import { Injectable } from '@angular/core';\nimport { Observable } from 'rxjs';\nimport { catchError } from 'rxjs/operators';\nimport { ApiService } from './api.service';\nimport { AdminDashboardStats, PaginatedResponse, User } from '../models';\n\n@Injectable({ providedIn: 'root' })\nexport class AdminService extends ApiService {\n  getDashboardStats(): Observable<AdminDashboardStats> {\n    return this.http\n      .get<AdminDashboardStats>(`${this.base}/admin/dashboard`)\n      .pipe(catchError(this.handleError));\n  }\n\n  listUsers(params: { page?: number; size?: number; search?: string } = {}): Observable<PaginatedResponse<User>> {\n    return this.http\n      .get<PaginatedResponse<User>>(`${this.base}/users`, { params: this.buildParams(params) })\n      .pipe(catchError(this.handleError));\n  }\n}\n"],
+  "mappings": ";;;;;;;;;;AAOM,IAAO,eAAP,MAAO,sBAAqB,WAAU;EAC1C,oBAAiB;AACf,WAAO,KAAK,KACT,IAAyB,GAAG,KAAK,IAAI,kBAAkB,EACvD,KAAK,WAAW,KAAK,WAAW,CAAC;EACtC;EAEA,UAAU,SAA4D,CAAA,GAAE;AACtE,WAAO,KAAK,KACT,IAA6B,GAAG,KAAK,IAAI,UAAU,EAAE,QAAQ,KAAK,YAAY,MAAM,EAAC,CAAE,EACvF,KAAK,WAAW,KAAK,WAAW,CAAC;EACtC;;;;;oHAXW,aAAY,IAAA,qBAAZ,aAAY;MAAA;IAAA,GAAA;EAAA;;4EAAZ,eAAY,SAAZ,cAAY,WAAA,YADC,OAAM,CAAA;EAAA;;",
+  "names": []
+}

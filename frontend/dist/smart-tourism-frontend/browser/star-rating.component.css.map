@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["angular:styles/component:css;4ba5aca82276bc3919b5b293680d25b8631ecdc3f2c5cf6c1cef07417e001e0f;D:/SMART TOUR/smart-tourism/frontend/src/app/shared/star-rating/star-rating.component.ts"],
+  "sourcesContent": ["\n    :host { display: inline-flex; }\n    .star-rating { display: inline-flex; align-items: center; gap: 1px; }\n    .star { color: #c9a84c; font-size: inherit; }\n    .star-empty { color: var(--dark-500); font-size: inherit; }\n    .rating-value { margin-left: 4px; font-size: 0.8em; color: var(--text-secondary); }\n  "],
+  "mappings": ";AACI;AAAQ,WAAS;AAAa;AAC9B,CAAC;AAAc,WAAS;AAAa,eAAa;AAAQ,OAAK;AAAK;AACpE,CAAC;AAAO,SAAO;AAAS,aAAW;AAAS;AAC5C,CAAC;AAAa,SAAO,IAAI;AAAa,aAAW;AAAS;AAC1D,CAAC;AAAe,eAAa;AAAK,aAAW;AAAO,SAAO,IAAI;AAAmB;",
+  "names": []
+}

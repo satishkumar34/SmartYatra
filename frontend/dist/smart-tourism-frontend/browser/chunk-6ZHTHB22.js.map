@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/core/services/toast.service.ts"],
+  "sourcesContent": ["import { Injectable } from '@angular/core';\nimport { Subject } from 'rxjs';\n\nexport type ToastType = 'success' | 'error' | 'info' | 'warning';\n\nexport interface Toast {\n  id: number;\n  message: string;\n  type: ToastType;\n}\n\n@Injectable({ providedIn: 'root' })\nexport class ToastService {\n  private _counter = 0;\n  private _toasts$ = new Subject<Toast>();\n  readonly toasts$ = this._toasts$.asObservable();\n\n  show(message: string, type: ToastType = 'info'): void {\n    this._toasts$.next({ id: ++this._counter, message, type });\n  }\n\n  success(message: string): void { this.show(message, 'success'); }\n  error(message: string): void { this.show(message, 'error'); }\n  warning(message: string): void { this.show(message, 'warning'); }\n}\n"],
+  "mappings": ";;;;;;AAYM,IAAO,eAAP,MAAO,cAAY;EADzB,cAAA;AAEU,SAAA,WAAW;AACX,SAAA,WAAW,IAAI,QAAO;AACrB,SAAA,UAAU,KAAK,SAAS,aAAY;;EAE7C,KAAK,SAAiB,OAAkB,QAAM;AAC5C,SAAK,SAAS,KAAK,EAAE,IAAI,EAAE,KAAK,UAAU,SAAS,KAAI,CAAE;EAC3D;EAEA,QAAQ,SAAe;AAAU,SAAK,KAAK,SAAS,SAAS;EAAG;EAChE,MAAM,SAAe;AAAU,SAAK,KAAK,SAAS,OAAO;EAAG;EAC5D,QAAQ,SAAe;AAAU,SAAK,KAAK,SAAS,SAAS;EAAG;;;uCAXrD,eAAY;IAAA;EAAA;;4EAAZ,eAAY,SAAZ,cAAY,WAAA,YADC,OAAM,CAAA;EAAA;;",
+  "names": []
+}

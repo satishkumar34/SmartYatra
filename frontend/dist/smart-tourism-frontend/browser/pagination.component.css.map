@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["angular:styles/component:css;22e5b966b3a13ff928ea6bddf364076d9b125327a7fbe28f409d0b10bb88547f;D:/SMART TOUR/smart-tourism/frontend/src/app/shared/pagination/pagination.component.ts"],
+  "sourcesContent": ["\n    .pagination { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:2rem; }\n    .pagination-ellipsis { color: var(--text-muted); padding: 0 4px; font-size: 0.875rem; }\n  "],
+  "mappings": ";AACI,CAAC;AAAa,WAAQ;AAAM,eAAY;AAAQ,mBAAgB;AAAQ,OAAI;AAAK,cAAW;AAAM;AAClG,CAAC;AAAsB,SAAO,IAAI;AAAe,WAAS,EAAE;AAAK,aAAW;AAAU;",
+  "names": []
+}

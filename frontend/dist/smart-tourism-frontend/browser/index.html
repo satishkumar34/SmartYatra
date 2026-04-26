@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Voyager - Smart Tourism</title>
+  <base href="/"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content="Voyager Smart Tourism Platform - discover destinations, book hotels, explore the world."/>
+  <meta name="theme-color" content="#10101a"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>V</text></svg>"/>
+  <script>
+    (function() {
+      try {
+        var storageKey = 'st_theme';
+        var savedTheme = localStorage.getItem(storageKey);
+        var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = savedTheme === 'light' || savedTheme === 'dark'
+          ? savedTheme
+          : (systemPrefersDark ? 'dark' : 'light');
+
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.style.colorScheme = theme;
+
+        var metaTheme = document.querySelector('meta[name="theme-color"]');
+        if (metaTheme) {
+          metaTheme.setAttribute('content', theme === 'dark' ? '#10101a' : '#fcf9f1');
+        }
+      } catch (error) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.style.colorScheme = 'dark';
+      }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+  <app-root></app-root>
+<link rel="modulepreload" href="chunk-6ZHTHB22.js"><link rel="modulepreload" href="chunk-7SYI734T.js"><link rel="modulepreload" href="chunk-XHBJMX36.js"><link rel="modulepreload" href="chunk-JKA44PGP.js"><link rel="modulepreload" href="chunk-6OJTOGUY.js"><link rel="modulepreload" href="chunk-WDMUDEB6.js"><script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script></body>
+</html>

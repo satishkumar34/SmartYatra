@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/admin/admin.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\n\nexport const adminRoutes: Routes = [\n  {\n    path: '',\n    loadComponent: () =>\n      import('./admin-dashboard/admin-dashboard.component').then((m) => m.AdminDashboardComponent),\n  },\n  {\n    path: 'places',\n    loadComponent: () =>\n      import('./admin-places/admin-places.component').then((m) => m.AdminPlacesComponent),\n  },\n  {\n    path: 'hotels',\n    loadComponent: () =>\n      import('./admin-hotels/admin-hotels.component').then((m) => m.AdminHotelsComponent),\n  },\n  {\n    path: 'bookings',\n    loadComponent: () =>\n      import('./admin-bookings/admin-bookings.component').then((m) => m.AdminBookingsComponent),\n  },\n  {\n    path: 'users',\n    loadComponent: () =>\n      import('./admin-users/admin-users.component').then((m) => m.AdminUsersComponent),\n  },\n];\n"],
+  "mappings": ";;;AAEO,IAAM,cAAsB;EACjC;IACE,MAAM;IACN,eAAe,MACb,OAAO,yCAA6C,EAAE,KAAK,CAAC,MAAM,EAAE,uBAAuB;;EAE/F;IACE,MAAM;IACN,eAAe,MACb,OAAO,sCAAuC,EAAE,KAAK,CAAC,MAAM,EAAE,oBAAoB;;EAEtF;IACE,MAAM;IACN,eAAe,MACb,OAAO,sCAAuC,EAAE,KAAK,CAAC,MAAM,EAAE,oBAAoB;;EAEtF;IACE,MAAM;IACN,eAAe,MACb,OAAO,wCAA2C,EAAE,KAAK,CAAC,MAAM,EAAE,sBAAsB;;EAE5F;IACE,MAAM;IACN,eAAe,MACb,OAAO,qCAAqC,EAAE,KAAK,CAAC,MAAM,EAAE,mBAAmB;;;",
+  "names": []
+}
