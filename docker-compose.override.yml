@@ -1,0 +1,42 @@
+# This file is automatically merged with docker-compose.yml in development.
+# It enables hot-reload for backend and mounts source volumes.
+# Do NOT use this in production — it overrides CMD and exposes debug ports.
+
+version: "3.9"
+
+services:
+
+  backend:
+    volumes:
+      - ./backend:/app
+    environment:
+      ENVIRONMENT: development
+    command: >
+      sh -c "
+        alembic upgrade head &&
+        python seed.py &&
+        uvicorn main:app --host 0.0.0.0 --port 8000 --reload --log-level info
+      "
+    ports:
+      - "8000:8000"
+
+  frontend:
+    # In development, run Angular dev server instead of Nginx
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: sh -c "npm install --legacy-peer-deps && npx ng serve --host 0.0.0.0 --port 4200 --disable-host-check"
+    ports:
+      - "4200:4200"
+    environment:
+      NODE_OPTIONS: "--max-old-space-size=4096"
+
+  db:
+    ports:
+      - "5432:5432"
+    # Expose pgAdmin-compatible volume for local inspection
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db-init:/docker-entrypoint-initdb.d
