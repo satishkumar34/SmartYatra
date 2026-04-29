@@ -1,0 +1,97 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.my-bookings-page {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.page-header {
+  @include m.flex(center, space-between, v.$space-4);
+  flex-wrap: wrap;
+  margin-bottom: v.$space-8;
+  h2 { font-size: v.$font-3xl; font-weight: v.$weight-bold; margin-bottom: v.$space-1; }
+  p  { color: v.$text-muted; }
+}
+
+.bookings-list { display: flex; flex-direction: column; gap: v.$space-5; }
+
+.booking-card { padding: v.$space-6; }
+
+.booking-top {
+  @include m.flex(center, space-between);
+  margin-bottom: v.$space-5;
+  padding-bottom: v.$space-4;
+  border-bottom: 1px solid v.$border-subtle;
+}
+
+.booking-id-wrap { @include m.flex(center, flex-start, v.$space-2); }
+.booking-label { font-size: v.$font-xs; color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.06em; }
+.booking-num   { font-size: v.$font-lg; font-weight: v.$weight-bold; color: v.$text-primary; }
+
+.booking-body { display: flex; flex-direction: column; gap: v.$space-5; }
+
+.booking-dates {
+  @include m.flex(center, flex-start, 0);
+  gap: v.$space-4;
+
+  @include m.respond-to(sm) { flex-direction: column; align-items: flex-start; }
+}
+
+.date-block {
+  display: flex; flex-direction: column; gap: v.$space-1;
+  .date-label { font-size: v.$font-xs; color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.05em; }
+  .date-value { font-size: v.$font-base; font-weight: v.$weight-semibold; color: v.$text-primary; }
+}
+
+.date-divider {
+  display: flex; flex-direction: column; align-items: center;
+  flex: 1; gap: v.$space-1; min-width: 80px;
+  @include m.respond-to(sm) { display: none; }
+}
+
+.nights-badge {
+  font-size: v.$font-xs; padding: 2px v.$space-3;
+  background: v.$gold-glow; border: 1px solid v.$border-subtle;
+  border-radius: v.$radius-full; color: v.$gold-400; font-weight: v.$weight-semibold;
+  white-space: nowrap;
+}
+
+.date-line { height: 1px; width: 100%; background: v.$border-subtle; }
+
+.booking-meta {
+  display: flex; gap: v.$space-6; flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex; flex-direction: column; gap: 2px;
+  .meta-label { font-size: v.$font-xs; color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.05em; }
+  .meta-value { font-size: v.$font-sm; font-weight: v.$weight-medium; color: v.$text-primary; }
+}
+
+.special-requests {
+  padding: v.$space-3 v.$space-4;
+  background: v.$dark-800;
+  border: 1px solid v.$border-subtle;
+  border-radius: v.$radius-md;
+  font-size: v.$font-sm;
+  display: flex; gap: v.$space-2;
+
+  .sr-label { color: v.$text-muted; flex-shrink: 0; }
+  .sr-text  { color: v.$text-secondary; }
+}
+
+.booking-footer {
+  @include m.flex(center, space-between);
+  padding-top: v.$space-4;
+  border-top: 1px solid v.$border-subtle;
+  margin-top: v.$space-4;
+}
+
+.total-price { display: flex; flex-direction: column; gap: 2px;
+  .price-label { font-size: v.$font-xs; color: v.$text-muted; text-transform: uppercase; letter-spacing: 0.05em; }
+  .price-value { font-size: v.$font-2xl; font-weight: v.$weight-bold; color: v.$gold-400; }
+}
